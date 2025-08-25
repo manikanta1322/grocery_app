@@ -32,15 +32,15 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isButtonPressed = true);
       try {
-        await ref.read(authProvider.notifier).signup(
-          phone: _phoneController.text.trim(),
-          password: _passwordController.text.trim(),
-          name: _nameController.text.trim(),
-        );
-        
-        if (mounted) {
-          Navigator.pushReplacementNamed(context, '/home');
-        }
+        await ref
+            .read(authProvider.notifier)
+            .signup(
+              context: context,
+              fullName: _nameController.text.trim(),
+              phoneNumber: _phoneController.text.trim(),
+              password: _passwordController.text.trim(),
+              confirmPassword: _confirmPasswordController.text.trim(),
+            );
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -63,7 +63,9 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final isLoading = ref.watch(authProvider.select((state) => state is AsyncLoading));
+    final isLoading = ref.watch(
+      authProvider.select((state) => state is AsyncLoading),
+    );
     final theme = Theme.of(context);
     final size = MediaQuery.of(context).size;
 
@@ -166,6 +168,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       child: TextFormField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
+                        maxLength: 10,
                         decoration: InputDecoration(
                           labelText: 'Phone Number',
                           prefixIcon: const Icon(Icons.phone),
@@ -215,10 +218,14 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                               _obscurePassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withOpacity(
+                                0.6,
+                              ),
                             ),
                             onPressed: () {
-                              setState(() => _obscurePassword = !_obscurePassword);
+                              setState(
+                                () => _obscurePassword = !_obscurePassword,
+                              );
                             },
                           ),
                           filled: true,
@@ -267,11 +274,16 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                               _obscureConfirmPassword
                                   ? Icons.visibility_off
                                   : Icons.visibility,
-                              color: theme.colorScheme.onSurface.withOpacity(0.6),
+                              color: theme.colorScheme.onSurface.withOpacity(
+                                0.6,
+                              ),
                             ),
                             onPressed: () {
                               setState(
-                                  () => _obscureConfirmPassword = !_obscureConfirmPassword);
+                                () =>
+                                    _obscureConfirmPassword =
+                                        !_obscureConfirmPassword,
+                              );
                             },
                           ),
                           filled: true,
@@ -319,25 +331,27 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                         child: InkWell(
                           borderRadius: BorderRadius.circular(12),
                           onTap: isLoading ? null : _signup,
-                          onTapDown: (_) =>
-                              setState(() => _isButtonPressed = true),
-                          onTapCancel: () =>
-                              setState(() => _isButtonPressed = false),
-                          onTapUp: (_) =>
-                              setState(() => _isButtonPressed = false),
+                          onTapDown:
+                              (_) => setState(() => _isButtonPressed = true),
+                          onTapCancel:
+                              () => setState(() => _isButtonPressed = false),
+                          onTapUp:
+                              (_) => setState(() => _isButtonPressed = false),
                           child: Center(
-                            child: isLoading
-                                ? const CircularProgressIndicator(
-                                    strokeWidth: 2,
-                                    color: Colors.white,
-                                  )
-                                : Text(
-                                    'Sign Up',
-                                    style: theme.textTheme.titleMedium?.copyWith(
+                            child:
+                                isLoading
+                                    ? const CircularProgressIndicator(
+                                      strokeWidth: 2,
                                       color: Colors.white,
-                                      fontWeight: FontWeight.bold,
+                                    )
+                                    : Text(
+                                      'Sign Up',
+                                      style: theme.textTheme.titleMedium
+                                          ?.copyWith(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                     ),
-                                  ),
                           ),
                         ),
                       ),
