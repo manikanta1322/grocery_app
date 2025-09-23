@@ -68,7 +68,7 @@ class MyApp extends ConsumerWidget {
     }
 
     return MaterialApp(
-      title: 'Grocery Shop',
+      title: 'Maha Mart',
       theme: _buildTheme(),
       debugShowCheckedModeBanner: false,
       initialRoute: '/splash',
