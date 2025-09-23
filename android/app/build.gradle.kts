@@ -25,7 +25,7 @@ val keystoreProperties = Properties().apply {
 }
 
 android {
-    namespace = "com.example.grocery_app"
+    namespace = "com.manikanta_maha_mart.app"
     compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
@@ -43,7 +43,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.grocery_app"
+        applicationId = "com.manikanta_maha_mart.app"
         minSdk = 24
         targetSdk = 35
         versionCode = flutterVersionCode.toInt()
