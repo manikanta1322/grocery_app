@@ -27,16 +27,16 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isButtonPressed = true);
       try {
-        await ref
-            .read(authProvider.notifier)
-            .login(
-              context: context,
-              phone: _phoneController.text.trim(),
-              password: _passwordController.text.trim(),
-            );
-        // if (mounted) {
-        //   Navigator.pushReplacementNamed(context, '/main');
-        // }
+        // await ref
+        //     .read(authProvider.notifier)
+        //     .login(
+        //       context: context,
+        //       phone: _phoneController.text.trim(),
+        //       password: _passwordController.text.trim(),
+        //     );
+        if (mounted) {
+          Navigator.pushReplacementNamed(context, '/main');
+        }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

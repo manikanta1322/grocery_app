@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocery_app/globalFuctions/globalFunctions.dart';
 import 'package:grocery_app/providers/auth_provider.dart';
+import 'package:grocery_app/screens/loginScreens/login_screen.dart';
 
 class SignupScreen extends ConsumerStatefulWidget {
   const SignupScreen({super.key});
@@ -32,15 +34,17 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     if (_formKey.currentState!.validate()) {
       setState(() => _isButtonPressed = true);
       try {
-        await ref
-            .read(authProvider.notifier)
-            .signup(
-              context: context,
-              fullName: _nameController.text.trim(),
-              phoneNumber: _phoneController.text.trim(),
-              password: _passwordController.text.trim(),
-              confirmPassword: _confirmPasswordController.text.trim(),
-            );
+        // await ref
+        //     .read(authProvider.notifier)
+        //     .signup(
+        //       context: context,
+        //       fullName: _nameController.text.trim(),
+        //       phoneNumber: _phoneController.text.trim(),
+        //       password: _passwordController.text.trim(),
+        //       confirmPassword: _confirmPasswordController.text.trim(),
+        //     );
+                Tgg.navigateTo(context, LoginScreen());
+
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(

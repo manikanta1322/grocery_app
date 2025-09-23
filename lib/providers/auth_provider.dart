@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocery_app/apiServices/Login_DetailsApi.dart';
 import 'package:grocery_app/globalFuctions/globalFunctions.dart';
+import 'package:grocery_app/screens/home/bottom_navigation_screen.dart';
 import 'package:grocery_app/screens/home/home_screen_body.dart';
 import 'package:grocery_app/screens/loginScreens/login_screen.dart';
 // --- 1. IMPORT image_picker for the XFile type ---
@@ -67,6 +68,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     Map<String, String> params = {"phoneNumber": phone, "password": password};
     try {
       final responseData = await Login_DetailsApi().logIn(context, params);
+      print("Response Data: $responseData");
 
       if (responseData != null && responseData['status'] == 200) {
         print("Login Successful: $responseData");
@@ -74,7 +76,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         var authID = responseData['authId'];
         print("printing the authID $authID");
         storage.write('authID', authID);
-        Tgg.navigateTo(context, HomeScreenBody());
+        Tgg.navigateTo(context, BottomNavigationScreen());
       } else {
         throw Exception(responseData?['message'] ?? 'Login failed');
       }
@@ -82,7 +84,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
       state = state.copyWith(isLoading: false, isAuthenticated: false);
       rethrow;
     }
-  }
+  }          
 
   Future<void> signup({
     // Add BuildContext as a parameter because your API class needs it
@@ -105,6 +107,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
     try {
       // Create an instance of your API class and call the new signUp method
       final responseData = await Login_DetailsApi().signIn(context, params);
+      print("Response Signup Data: $responseData");
 
       // Check the response from your API helper
       if (responseData != null && responseData['status'] == 201) {

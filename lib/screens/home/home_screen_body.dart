@@ -28,9 +28,8 @@ class HomeScreenBody extends ConsumerWidget {
     );
 
     return Scaffold(
-      // backgroundColor: Colors.grey[50],
       appBar: AppBar(
-        // ... (Your AppBar remains the same, with the badge on the cart icon)
+        automaticallyImplyLeading: false,
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
