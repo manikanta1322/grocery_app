@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocery_app/providers/address_provider.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
+import 'package:grocery_app/providers/order_provider.dart';
 import 'package:grocery_app/providers/payment_provider.dart';
 import 'package:grocery_app/screens/paymentScreens/select_payment_method_screen.dart';
 import 'package:grocery_app/screens/profileScreens/shipping_address_screen.dart';
@@ -10,7 +11,17 @@ class CheckoutScreen extends ConsumerWidget {
   const CheckoutScreen({super.key});
 
   // A simple method to show a confirmation dialog
-  void _showOrderPlacedDialog(BuildContext context, WidgetRef ref) {
+   void _showOrderPlacedDialog(BuildContext context, WidgetRef ref) {
+    // 1. Get the necessary data for the new order
+    final currentCartItems = ref.read(cartProvider);
+    final cartTotal = ref.read(cartTotalProvider);
+    const deliveryFee = 5.00;
+    final totalAmount = cartTotal + deliveryFee;
+
+    // 2. Add the order to the OrderProvider
+    // This will create a new PastOrder object and add it to the list.
+    ref.read(orderProvider.notifier).addOrder(currentCartItems, totalAmount);
+
     showDialog(
       context: context,
       barrierDismissible: false, // User must tap button to close
@@ -20,13 +31,13 @@ class CheckoutScreen extends ConsumerWidget {
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
           title: const Text('Order Placed!'),
           content: const Text(
-            'Thank you for your purchase. Your order is being processed.',
+            'Thank you for your purchase. Your order is being processed and will appear in "My Orders".',
           ),
           actions: <Widget>[
             TextButton(
               child: const Text('OK'),
               onPressed: () {
-                // Clear the cart
+                // 3. Clear the cart AFTER the order has been recorded
                 ref.read(cartProvider.notifier).clearCart();
                 // Pop until we get back to the home screen
                 Navigator.of(context).popUntil((route) => route.isFirst);

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:grocery_app/providers/order_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 
 class MyOrdersScreen extends ConsumerWidget {
   const MyOrdersScreen({super.key});
@@ -57,15 +58,18 @@ class _OrderCard extends StatelessWidget {
             // --- Order Header ---
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+              children: [   
                 // --- FIX: Use theme text style ---
-                Text(
-                  order.id,
-                  style: theme.textTheme.titleMedium,
+                Container(
+                  width: 200,
+                  child: Text(
+                   "OrderId: "+ order.id,
+                    style: theme.textTheme.titleSmall,maxLines: 2,overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 // --- FIX: Use theme text style and color ---
                 Text(
-                  DateFormat.yMMMd()
+                  DateFormat.yMMMd()    
                       .format(order.orderDate), // e.g., "Jan 23, 2024"
                   style: theme.textTheme.bodyMedium
                       ?.copyWith(color: colorScheme.onSurfaceVariant),

@@ -34,9 +34,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         //       phone: _phoneController.text.trim(),
         //       password: _passwordController.text.trim(),
         //     );
-        if (mounted) {
+        // if (mounted) {
           Navigator.pushReplacementNamed(context, '/main');
-        }
+        // }
       } catch (e) {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -127,7 +127,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       child: TextFormField(
                         controller: _phoneController,
                         keyboardType: TextInputType.phone,
-                        decoration: InputDecoration(
+                        decoration: InputDecoration( 
                           labelText: 'Phone Number',
                           prefixIcon: const Icon(Icons.phone),
                           filled: true,
@@ -141,6 +141,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             horizontal: 20,
                           ),
                         ),
+                        maxLength: 10,
                         validator:
                             (value) =>
                                 value!.isEmpty ? 'Enter phone number' : null,
